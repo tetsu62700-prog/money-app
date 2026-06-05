@@ -7,6 +7,7 @@ from records import (
     show_category_total,
     show_monthly_total,
     show_monthly_category_total,
+    show_monthly_category_graph,
     delete_record,
     edit_record,
 )
@@ -26,8 +27,9 @@ def show_memu():
     print("8:記録を削除")
     print("9:記録を編集")
     print("10:CSVに出力")
-    print("11:保存する")
-    print("12:終了")
+    print("11:月別カテゴリ支出を見る")
+    print("12:保存する")
+    print("13:終了")
 
 
 def main():
@@ -60,8 +62,10 @@ def main():
         elif choice == "10":
             export_csv(records)
         elif choice == "11":
-            save_records(records)
+            show_monthly_category_graph(records)
         elif choice == "12":
+            save_records(records)
+        elif choice == "13":
             break
         else:
             save_records(records)

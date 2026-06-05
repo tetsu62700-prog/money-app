@@ -1,4 +1,6 @@
-
+from datetime import datetime
+from storage import save_records
+import matplotlib.pyplot as plt
 
 def sort_by_date(records):
     records.sort(key=lambda record: record["date"])
@@ -12,7 +14,7 @@ def input_date():
         return None
     return date_text
 
-def input_int():
+def input_int(records):
     try:
         number = int(input("編集する番号を入力してください。"))
     except ValueError:
@@ -218,6 +220,35 @@ def show_monthly_category_total(records):
 
     for category, total in category_totals.items():
         print(f"{category}:{total:,}円")
+
+def show_monthly_category_graph(recoreds):
+    month = input("年月を入力してください:")
+
+    category_totals = {}
+
+    for record in recoreds:
+        if record["date"].startswith(month) and record["record_type"]== "支出":
+            category = record["category"]
+            amount = record["amount"]
+
+            if category in category_totals:
+                category_totals[category] += amount
+            else:
+                category_totals[category] = amount
+    if len(category_totals) == 0:
+        print(f"{month}の支出記録がありません")
+        return
+    
+    categories = list(category_totals.keys())
+    amounts = list(category_totals.values())
+
+    plt.figure(figsize=(8,5))
+    plt.bar(categories, amounts)
+    plt.title(f"{month}のカテゴリ別支出")
+    plt.xlabel("カテゴリ")
+    plt.ylabel("金額(円)")
+    plt.tight_layout()
+    plt.show()
 
 def delete_record(records):
     if len(records) == 0:
