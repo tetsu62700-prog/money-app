@@ -1,5 +1,6 @@
 import json
 import os
+import csv
 
 FILE_NAME = "money_records.json"
 
@@ -21,3 +22,20 @@ def save_records(records):
 
     print("保存しました。")
 
+def export_csv(records):
+    CSV_FILE_NAME = "money_records.csv"
+
+    with open(CSV_FILE_NAME, "w", encoding="utf-8-sig", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(["date","record_type","category","amount","memo"])
+
+        for record in records:
+            writer.writerow([
+                record["date"],
+                record["record_type"],
+                record["category"],
+                record["amount"],
+                record["memo"],
+            ])
+    print(f"{CSV_FILE_NAME}に出力しました。")
